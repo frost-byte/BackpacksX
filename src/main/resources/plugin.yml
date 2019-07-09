@@ -1,0 +1,8 @@
+name: Backpack
+version: 2.3.0-SNAPSHOT
+author: The_TadeSK
+main: me.tade.backpacks.Backpacks
+api-version: 1.14
+commands:
+  backpack:
+    aliases: [bp, backpacks, bpack]

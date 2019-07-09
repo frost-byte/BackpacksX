@@ -1,0 +1,29 @@
+backpacks:
+  babypack:
+    size: 9
+    recipe:
+    - 'CHEST CHEST CHEST'
+    - 'CHEST COBBLESTONE CHEST'
+    - 'CHEST CHEST CHEST'
+    item:
+      material: CHEST
+      data: 0
+      amount: 1
+      name: '&a&lBabypack'
+      lore:
+      - ' '
+      - '&79 slots available '
+  teenagepack:
+    size: 18
+    recipe:
+    - 'CHEST CHEST CHEST'
+    - 'CHEST ENDER_CHEST CHEST'
+    - 'CHEST CHEST CHEST'
+    item:
+      material: CHEST
+      data: 0
+      amount: 1
+      name: '&b&lTennagepack'
+      lore:
+      - ' '
+      - '&718 slots available '
