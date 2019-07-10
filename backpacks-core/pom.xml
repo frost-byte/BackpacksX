@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>backpacks-core</artifactId>
+    <version>2.3.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>me.tade.backpacks</groupId>
+        <artifactId>backpacks-parent</artifactId>
+        <version>2.3.0-SNAPSHOT</version>
+    </parent>
+    <properties>
+        <paper.version>1.14.3-R0.1-SNAPSHOT</paper.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.release>8</maven.compiler.release>
+        <bstats.version>1.5</bstats.version>
+        <acf.version>0.5.0-SNAPSHOT</acf.version>
+        <guava.version>27.1-jre</guava.version>
+    </properties>
+
+    <repositories>
+        <!-- frost-byte -->
+        <repository>
+            <id>frost-byte</id>
+            <url>https://frost-byte.net/nexus/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Paper API (extends Bukkit) -->
+        <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>${paper.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>co.aikar</groupId>
+            <artifactId>acf-bukkit</artifactId>
+            <version>${acf.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180813</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <!-- maven-shade-plugin -->
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>me.tade.backpacks.bstats</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
