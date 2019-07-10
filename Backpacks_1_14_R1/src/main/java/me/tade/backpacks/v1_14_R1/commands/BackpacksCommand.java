@@ -1,4 +1,4 @@
-package me.tade.backpacks.v1_14_R3.commands;
+package me.tade.backpacks.v1_14_R1.commands;
 
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
@@ -106,7 +106,7 @@ public class BackpacksCommand extends BackpacksBaseCommand
 		}
 
 		if (sendGiftMessage)
-			player.sendMessage("§cYou have received a " + item.getI18NDisplayName());
+			player.sendMessage("§cYou have received a " + pack.getName());
 		else
 			sender.sendMessage("§cBackpack given to " + player.getName());
 	}

@@ -10,7 +10,7 @@
         <version>2.3.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>Backpacks_1_14_R3</artifactId>
+    <artifactId>Backpacks_1_14_R1</artifactId>
     <version>2.3.0-SNAPSHOT</version>
 
     <properties>
@@ -103,7 +103,7 @@
                     <relocations>
                         <relocation>
                             <pattern>com.google.inject</pattern>
-                            <shadedPattern>me.tade.backpacks.v1_14_R3.inject</shadedPattern>
+                            <shadedPattern>me.tade.backpacks.v1_14_R1.inject</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

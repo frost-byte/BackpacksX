@@ -116,7 +116,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>Backpacks_1_14_R3</artifactId>
+            <artifactId>Backpacks_1_14_R1</artifactId>
             <version>${project.parent.version}</version>
             <type>jar</type>
             <scope>compile</scope>

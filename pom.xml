@@ -17,7 +17,7 @@
     <modules>
         <module>backpacks-core</module>
         <module>Backpacks_1_8_R3</module>
-        <module>Backpacks_1_14_R3</module>
+        <module>Backpacks_1_14_R1</module>
         <module>dist</module>
     </modules>
 

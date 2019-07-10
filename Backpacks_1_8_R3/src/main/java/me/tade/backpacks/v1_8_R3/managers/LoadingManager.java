@@ -54,7 +54,7 @@ public class LoadingManager extends BaseLoadingManager implements Listener {
 		}
 
 		if (plugin.getPluginUpdater().needUpdate()) {
-			if (player.isOp() || player.hasPermission("backpack.update,info")) {
+			if (player.isOp() || player.hasPermission("backpack.update.info")) {
 				plugin.sendUpdateMessage();
 			}
 		}
