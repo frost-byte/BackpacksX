@@ -64,6 +64,8 @@ public class Backpacks extends JavaPlugin {
 		findVersion();
 		getLogger().info("-----------------------------");
 		getLogger().info("          Backpacks          ");
+		getLogger().info("                             ");
+		getLogger().info("     MC Revision: " + VersionManager.getMinecraftRevision());
 
 		if (!registerDependencies())
 			return;
@@ -83,7 +85,6 @@ public class Backpacks extends JavaPlugin {
 
 		// Initialize the ACF Command Manger
 		commandManager = new BukkitCommandManager(this);
-		getLogger().info("Found MC version " + VersionManager.getMinecraftRevision());
 
 		try {
 			getLogger().info("Binding Version Bridge");
@@ -130,7 +131,7 @@ public class Backpacks extends JavaPlugin {
 
 	private void registerConfig() {
 		getConfig().options().copyDefaults(true);
-		saveConfig();
+		saveDefaultConfig();
 		//noinspection ResultOfMethodCallIgnored
 		(new File(getDataFolder().getAbsolutePath() + "/saves")).mkdir();
 	}

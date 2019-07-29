@@ -16,7 +16,7 @@
     <properties>
         <acf.version>0.5.0-SNAPSHOT</acf.version>
         <guice.version>4.2.0</guice.version>
-        <paper.version>1.14.3-R0.1-SNAPSHOT</paper.version>
+        <paper.version>1.14.4-R0.1-SNAPSHOT</paper.version>
         <guava.version>27.1-jre</guava.version>
     </properties>
 

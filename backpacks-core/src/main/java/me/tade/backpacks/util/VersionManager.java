@@ -20,7 +20,7 @@ public class VersionManager
 	}
 
 	public static void loadBridge() throws Exception {
-		// me.tade.backpacks.v1_8_R3.util.BridgeImpl
+
 		String className = "me.tade.backpacks.v" + getMinecraftRevision() + ".util.BridgeImpl";
 		BRIDGE = (VersionBridge) Class.forName(className).getConstructor().newInstance();
 	}
