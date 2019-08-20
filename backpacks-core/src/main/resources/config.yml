@@ -23,7 +23,7 @@ backpacks:
       material: CHEST
       data: 0
       amount: 1
-      name: '&b&lTennagepack'
+      name: '&b&lTeenagepack'
       lore:
       - ' '
       - '&718 slots available '

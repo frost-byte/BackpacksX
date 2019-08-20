@@ -1,7 +1,16 @@
 package me.tade.backpacks.v1_12_R1.commands;
 
 import co.aikar.commands.CommandHelp;
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.Flags;
+import co.aikar.commands.annotation.HelpCommand;
+import co.aikar.commands.annotation.Optional;
+import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.Syntax;
+import co.aikar.commands.annotation.Values;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.tade.backpacks.Backpacks;
@@ -18,6 +27,9 @@ import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static net.md_5.bungee.api.ChatColor.GREEN;
+import static net.md_5.bungee.api.ChatColor.RED;
 
 @SuppressWarnings("unused")
 @Singleton
@@ -51,6 +63,36 @@ public class BackpacksCommand extends BackpacksBaseCommand
 		plugin.reloadConfig();
 		plugin.reloadBackpacks();
 		sender.sendMessage(StringConstants.HEADER + " §aReloaded successfully");
+	}
+
+	@Description("View the details for a backpack")
+	@Subcommand("info|i")
+	@Syntax("<pack>")
+	@CommandCompletion("@packs")
+	public void packInfo(
+		CommandSender sender,
+		@Values("@packs") ConfigPack pack
+	){
+		String hasPermission = "";
+		String packPermission = "backpack.craft." + pack.getName();
+
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
+			ConfigPack config = plugin.getConfigPacks().getOrDefault(pack.getName(), null);
+
+			hasPermission = "Permission: ";
+
+			if (config != null)
+			{
+				hasPermission += (player.hasPermission(packPermission)) ? GREEN + "Yes" : RED + "No";
+			}
+			else
+			{
+				hasPermission += RED + "No";
+			}
+		}
+
+		sender.sendMessage(pack.packInfo() +"\n" + packPermission + ": " + hasPermission);
 	}
 
 	// /bp give <pack_name> <player_name>

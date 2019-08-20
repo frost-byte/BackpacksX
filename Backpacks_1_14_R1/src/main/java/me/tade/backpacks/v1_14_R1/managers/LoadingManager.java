@@ -1,15 +1,11 @@
 package me.tade.backpacks.v1_14_R1.managers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.tade.backpacks.Backpacks;
 import me.tade.backpacks.managers.BaseLoadingManager;
-import me.tade.backpacks.packs.Backpack;
 import me.tade.backpacks.packs.ConfigPack;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,55 +23,27 @@ public class LoadingManager extends BaseLoadingManager implements Listener {
 		super(plugin);
 	}
 
-	@EventHandler
-	public void onJoinServer(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
-		String playerName = player.getName();
-
-		for (String configName : plugin.getConfigPacks().keySet())
+	@Override
+	public void registerPack(ConfigPack pack, Player player)
+	{
+		player.discoverRecipe(new NamespacedKey(plugin, pack.getName()));
+		try
 		{
-			ConfigPack configPack = plugin.getConfigPacks().get(configName);
-			if (player.hasPermission("backpack.craft." + configName)) {
-				player.discoverRecipe(new NamespacedKey(plugin, configPack.getName()));
-			}
-
-			Backpack backpack = plugin.loadBackpack(player, configName);
-
-			if (backpack != null)
-			{
-				List<Backpack> backpacks = plugin.getPlayerBackpacks().getOrDefault(
-					playerName,
-					null
-				);
-
-				if (backpacks == null)
-					backpacks = new ArrayList<>(Collections.singletonList(backpack));
-				else
-					backpacks.add(backpack);
-
-				plugin.getPlayerBackpacks().put(playerName, backpacks);
-			}
+			Bukkit.getServer().addRecipe(pack.getShapedRecipe());
 		}
-
-		if (plugin.getPluginUpdater().needUpdate()) {
-			if (player.isOp() || player.hasPermission("backpack.update.info")) {
-				plugin.sendUpdateMessage();
-			}
+		catch (IllegalStateException ex)
+		{
+			plugin.getLogger().warning("Backpack " + pack.getName() + " already registered, ignoring.");
 		}
 	}
 
 	@EventHandler
-	public void onQuitServer(PlayerQuitEvent event) {
-		Player player = event.getPlayer();
-		String playerName = player.getName();
-		List<Backpack> backpacks = plugin.getPlayerBackpacks().get(playerName);
+	public void onJoinServer(PlayerJoinEvent event)	{
+		plugin.createPlayerPacks(event.getPlayer());
+	}
 
-		if (backpacks != null)
-		{
-			for (Backpack backpack : backpacks)
-			{
-				plugin.saveBackpack(player, backpack);
-			}
-		}
+	@EventHandler
+	public void onQuitServer(PlayerQuitEvent event) {
+		plugin.savePlayerPacks(event.getPlayer());
 	}
 }

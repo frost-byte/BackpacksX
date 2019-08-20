@@ -7,8 +7,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -40,8 +46,19 @@ import static me.tade.backpacks.util.StringConstants.HEADER;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class Backpacks extends JavaPlugin {
+	/**
+	 * Map of Config Names to their Backpack Configuration
+	 */
 	private HashMap<String, ConfigPack> configPacks = new HashMap<>();
+
+	/**
+	 * Map of Player Names to a List of their Backpacks
+	 */
 	private HashMap<String, List<Backpack>> playerBackpacks = new HashMap<>();
+
+	/**
+	 * Map of Backpacks and Inventories
+	 */
 	private HashMap<Backpack, Inventory> backpackInventories = new HashMap<>();
 	private PluginUpdater pluginUpdater;
 	private static boolean v1_12;
@@ -73,6 +90,7 @@ public class Backpacks extends JavaPlugin {
 		registerListeners();
 		registerCommands();
 		registerConfig();
+		reloadConfig();
 		reloadBackpacks();
 		registerMetrics();
 		createPlayerPacks();
@@ -170,20 +188,76 @@ public class Backpacks extends JavaPlugin {
 				Backpack backpack = loadBackpack(player, configName);
 				if (backpack != null)
 				{
-					List<Backpack> backpacks;
-					if (getPlayerBackpacks().containsKey(playerName))
+					List<Backpack> backpacks = getPlayerBackpacks().getOrDefault(playerName, null);
+
+					if (backpacks != null)
 					{
-						backpacks = getPlayerBackpacks().get(playerName);
-						backpacks.add(backpack);
+						if(!backpacks.contains(backpack))
+							backpacks.add(backpack);
 					}
 					else
 					{
 						backpacks = new ArrayList<>(Collections.singletonList(backpack));
 					}
+
 					getPlayerBackpacks().put(playerName, backpacks);
 				}
 			}
 		}
+	}
+
+	public void createPlayerPacks(Player player)
+	{
+		if (player == null || !player.isOnline())
+			return;
+
+		String playerName = player.getName();
+		BaseLoadingManager loadingManager = VersionManager
+			.getInstance(BaseLoadingManager.class);
+
+		for (String configName : getConfigPacks().keySet())
+		{
+			ConfigPack configPack = getConfigPacks().get(configName);
+
+			if (player.hasPermission("backpack.craft." + configName)) {
+				loadingManager.registerPack(configPack, player);
+
+				Backpack backpack = loadBackpack(player, configName);
+
+				if (backpack != null)
+				{
+					List<Backpack> backpacks = getPlayerBackpacks().getOrDefault(
+						playerName,
+						null
+					);
+
+					if (backpacks == null)
+						backpacks = new ArrayList<>(Collections.singletonList(backpack));
+					else
+					{
+						if (!backpacks.contains(backpack))
+							backpacks.add(backpack);
+					}
+
+					getPlayerBackpacks().put(playerName, backpacks);
+				}
+			}
+		}
+
+		if (getPluginUpdater().needUpdate()) {
+			if (player.isOp() || player.hasPermission("backpack.update.info")) {
+				sendUpdateMessage();
+			}
+		}
+	}
+
+	public void savePlayerPacks(Player player)
+	{
+		String playerName = player.getName();
+		List<Backpack> backpacks = getPlayerBackpacks().get(playerName);
+
+		if (backpacks != null)
+			backpacks.forEach(backpack -> saveBackpack(player, backpack));
 	}
 
 	@SuppressWarnings("unused")
@@ -318,32 +392,11 @@ public class Backpacks extends JavaPlugin {
 		return null;
 	}
 
-	public Backpack getBackpack(Player player, String configName) {
-		if (player == null || configName.isEmpty())
-			return null;
-		String playerName = player.getName();
-		List<Backpack> packs = getPlayerBackpacks().getOrDefault(playerName, null);
-
-		if (packs != null && !packs.isEmpty()) {
-			for (Backpack backpack : packs) {
-				if (backpack.getConfigName().equalsIgnoreCase(configName)) {
-					return backpack;
-				}
-			}
-		}
-
-		ConfigPack configPack = getConfigPacks().getOrDefault(configName, null);
-		if (configPack == null)
-			return null;
-
-		Backpack backpack = new Backpack(playerName, configPack.getSize(), configName, new ArrayList<>());
-
-		if (packs == null)
-			packs = new ArrayList<>();
-
-		packs.add(backpack);
-		getPlayerBackpacks().put(playerName, packs);
-
+	private void addBackpackInventory(
+		Player player,
+		Backpack backpack,
+		ConfigPack configPack
+	){
 		getBackpackInventories().put(
 			backpack,
 			Bukkit.createInventory(
@@ -352,11 +405,54 @@ public class Backpacks extends JavaPlugin {
 				configPack.getItemStack().getItemMeta().getDisplayName()
 			)
 		);
+	}
+
+	private void addPlayerBackpacks(Player player, List<Backpack> backpacks)
+	{
+		getPlayerBackpacks().put(player.getName(), backpacks);
+	}
+
+	public Backpack getBackpack(Player player, String configName) {
+		if (player == null || configName.isEmpty())
+			return null;
+		String playerName = player.getName();
+		List<Backpack> packs = getPlayerBackpacks().getOrDefault(playerName, null);
+
+		Backpack backpack;
+
+		if (packs != null && !packs.isEmpty())
+		{
+			backpack = packs.stream()
+				.filter(p -> p.getConfigName().equalsIgnoreCase(configName))
+				.findFirst()
+				.orElse(null);
+
+			if (backpack != null)
+				return backpack;
+		}
+
+		ConfigPack configPack = getConfigPacks().getOrDefault(configName, null);
+		if (configPack == null)
+			return null;
+
+		backpack = new Backpack(
+			playerName,
+			configPack.getSize(),
+			configName,
+			new ArrayList<>()
+		);
+
+		if (packs == null)
+			packs = new ArrayList<>();
+
+		packs.add(backpack);
+		addPlayerBackpacks(player, packs);
+		addBackpackInventory(player, backpack, configPack);
 
 		return backpack;
 	}
 
-	public Backpack loadBackpack(Player player, String configName) {
+	private Backpack loadBackpack(Player player, String configName) {
 		File dir = new File(getDataFolder(), "/saves/" + player.getUniqueId().toString() + "=" + configName + ".backpack");
 
 		if (!dir.exists())
@@ -514,6 +610,7 @@ public class Backpacks extends JavaPlugin {
 		ItemStack[] itemStackList = new ItemStack[serializedItemStackList.size()];
 
 		ItemStack itemStack;
+		int i = 0;
 		for (HashMap<Map<String, Object>, Map<String, Object>> serializedItemStackMap : serializedItemStackList) {
 			Entry<Map<String, Object>, Map<String, Object>> serializedItemStack = serializedItemStackMap.entrySet().iterator().next();
 			itemStack = ItemStack.deserialize(serializedItemStack.getKey());
@@ -525,12 +622,14 @@ public class Backpacks extends JavaPlugin {
 				);
 				itemStack.setItemMeta(itemMeta);
 			}
+			if (i < itemStackList.length)
+				itemStackList[i++] = itemStack;
 		}
 
 		return itemStackList;
 	}
 
-	public void sendUpdateMessage() {
+	void sendUpdateMessage() {
 		(new BukkitRunnable() {
 			public void run() {
 				for(Player player : Bukkit.getOnlinePlayers())
@@ -556,7 +655,7 @@ public class Backpacks extends JavaPlugin {
 		}).runTaskLater(this, 20L);
 	}
 
-	public PluginUpdater getPluginUpdater() {
+	private PluginUpdater getPluginUpdater() {
 		return pluginUpdater;
 	}
 }

@@ -7,11 +7,11 @@
     <parent>
         <groupId>me.tade.backpacks</groupId>
         <artifactId>backpacks-parent</artifactId>
-        <version>2.3.0-SNAPSHOT</version>
+        <version>2.3.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>Backpacks_1_14_R1</artifactId>
-    <version>2.3.0-SNAPSHOT</version>
+    <version>2.3.1-SNAPSHOT</version>
 
     <properties>
         <acf.version>0.5.0-SNAPSHOT</acf.version>
