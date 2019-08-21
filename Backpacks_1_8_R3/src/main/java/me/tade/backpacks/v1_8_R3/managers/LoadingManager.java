@@ -4,9 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.tade.backpacks.Backpacks;
 import me.tade.backpacks.managers.BaseLoadingManager;
-import me.tade.backpacks.packs.ConfigPack;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -20,18 +17,6 @@ public class LoadingManager extends BaseLoadingManager implements Listener {
 	public LoadingManager(Backpacks plugin)
 	{
 		super(plugin);
-	}
-
-	@Override
-	public void registerPack(ConfigPack pack, Player player) {
-		try
-		{
-			Bukkit.getServer().addRecipe(pack.getShapedRecipe());
-		}
-		catch (IllegalStateException ex)
-		{
-			plugin.getLogger().warning("Backpack " + pack.getName() + " already registered, ignoring.");
-		}
 	}
 
 	@EventHandler

@@ -28,10 +28,12 @@ import me.tade.backpacks.managers.BaseInventoryManager;
 import me.tade.backpacks.managers.BaseLoadingManager;
 import me.tade.backpacks.packs.Backpack;
 import me.tade.backpacks.packs.ConfigPack;
+
 import me.tade.backpacks.util.VersionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
@@ -93,7 +95,7 @@ public class Backpacks extends JavaPlugin {
 		reloadConfig();
 		reloadBackpacks();
 		registerMetrics();
-		createPlayerPacks();
+		//createPlayerPacks();
 	}
 
 	private boolean registerDependencies() {
@@ -178,49 +180,18 @@ public class Backpacks extends JavaPlugin {
 		});
 	}
 
-	private void createPlayerPacks()
-	{
-		for (Player player : Bukkit.getOnlinePlayers())
-		{
-			String playerName = player.getName();
-			for (String configName : getConfigPacks().keySet())
-			{
-				Backpack backpack = loadBackpack(player, configName);
-				if (backpack != null)
-				{
-					List<Backpack> backpacks = getPlayerBackpacks().getOrDefault(playerName, null);
-
-					if (backpacks != null)
-					{
-						if(!backpacks.contains(backpack))
-							backpacks.add(backpack);
-					}
-					else
-					{
-						backpacks = new ArrayList<>(Collections.singletonList(backpack));
-					}
-
-					getPlayerBackpacks().put(playerName, backpacks);
-				}
-			}
-		}
-	}
-
 	public void createPlayerPacks(Player player)
 	{
 		if (player == null || !player.isOnline())
 			return;
 
 		String playerName = player.getName();
-		BaseLoadingManager loadingManager = VersionManager
-			.getInstance(BaseLoadingManager.class);
 
 		for (String configName : getConfigPacks().keySet())
 		{
-			ConfigPack configPack = getConfigPacks().get(configName);
-
-			if (player.hasPermission("backpack.craft." + configName)) {
-				loadingManager.registerPack(configPack, player);
+			if (player.hasPermission("backpack.craft." + configName))
+			{
+				VersionManager.registerPackRecipe(this, configName, player);
 
 				Backpack backpack = loadBackpack(player, configName);
 
@@ -257,7 +228,13 @@ public class Backpacks extends JavaPlugin {
 		List<Backpack> backpacks = getPlayerBackpacks().get(playerName);
 
 		if (backpacks != null)
-			backpacks.forEach(backpack -> saveBackpack(player, backpack));
+		{
+			for (Backpack backpack : backpacks)
+			{
+				saveBackpack(player, backpack);
+				VersionManager.unregisterPackRecipe(this, backpack.getConfigName(), player);
+			}
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -358,7 +335,8 @@ public class Backpacks extends JavaPlugin {
 
 			meta.setLore(lore);
 			item.setItemMeta(meta);
-			configPacks.put(name, new ConfigPack(this, name, size, recipe, item));
+			ConfigPack configPack = new ConfigPack(this, name, size, recipe, item);
+			configPacks.put(name, configPack);
 		}
 	}
 

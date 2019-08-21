@@ -27,13 +27,8 @@ public class ConfigPack {
 		this.recipe = recipe;
 		this.itemStack = itemStack;
 
-		if (initializeRecipe())
-		{
-			plugin.getLogger().info("Pack Recipe " + name + " added!");
-		}
-		else {
-			plugin.getLogger().info("Pack Recipe " + name + " was not added!");
-		}
+		initializeRecipe();
+		plugin.getLogger().info("ConfigPack: Recipe " + name + " added!");
 	}
 
 	public String getName() {
@@ -85,7 +80,7 @@ public class ConfigPack {
 		return builder.toString();
 	}
 
-	private boolean initializeRecipe() {
+	private void initializeRecipe() {
 
 		shapedRecipe = VersionManager.createShapedRecipe(plugin, name, itemStack);
 		shapedRecipe.shape("ABC", "DEF", "GHI");
@@ -107,11 +102,9 @@ public class ConfigPack {
 				catch (Exception e)
 				{
 					e.printStackTrace();
-					return false;
 				}
 			}
 		}
-
-		return plugin.getServer().addRecipe(shapedRecipe);
+		VersionManager.updatePackRecipe(plugin, name, shapedRecipe);
 	}
 }

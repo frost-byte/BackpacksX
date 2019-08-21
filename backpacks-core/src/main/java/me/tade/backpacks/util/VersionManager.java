@@ -4,6 +4,7 @@ import co.aikar.commands.BukkitCommandManager;
 import me.tade.backpacks.Backpacks;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,6 +45,21 @@ public class VersionManager
 	public static ShapedRecipe createShapedRecipe(JavaPlugin plugin, String name, ItemStack itemStack)
 	{
 		return BRIDGE.createShapedRecipe(plugin, name, itemStack);
+	}
+
+	public static void registerPackRecipe(JavaPlugin plugin, String packName, Player player)
+	{
+		BRIDGE.registerPackRecipe(plugin, packName, player);
+	}
+
+	public static void unregisterPackRecipe(JavaPlugin plugin, String packName, Player player)
+	{
+		BRIDGE.unregisterPackRecipe(plugin, packName, player);
+	}
+
+	public static void updatePackRecipe(JavaPlugin plugin, String packName, ShapedRecipe recipe)
+	{
+		BRIDGE.updatePackRecipe(plugin, packName, recipe);
 	}
 
 	public static ItemStack createItemStack(Material material, int amount, short data)
