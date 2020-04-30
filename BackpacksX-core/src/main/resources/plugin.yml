@@ -1,0 +1,5 @@
+name: BackpacksX
+version: 1.0.0-SNAPSHOT
+author: frost-byte
+main: net.frostbyte.backpacksx.Backpacks
+api-version: 1.14
