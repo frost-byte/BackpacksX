@@ -120,8 +120,7 @@ New backpacks can be added by adding a section to the `config.yml` file and then
 [5]: https://www.spigotmc.org/resources/quickboard-free-scoreboard-plugin-scroller-changeable-text-placeholderapi-anti-flicker.15057/
 [6]: https://discord.gg/MZNYhTA
 [7]: https://frostbyte.mycloudrepo.io/public/repositories/snapshots
-
-[logo]: https://github.com/frost-byte/BackpacksX/blob/master/images/Layer-BackpacksX.png
+[logo]: https://github.com/frost-byte/BackpacksX/blob/master/images/Layer-BackPacksX.png
 
 ### Source
 [Github Repository][3]  
