@@ -98,5 +98,4 @@ sorting_hat:
 [/CODE]
 [/SPOILER]
 
-[h2]Discord[/h2]
-For support please contact me on [URL='https://discord.gg/MZNYhTA']the frost-byte central Discord[/URL][/B][/B]
+[URL='https://discord.gg/MZNYhTA'][IMG]https://raw.githubusercontent.com/frost-byte/backpacksx/master/images/Discord-Logo.png[/IMG][/URL]
