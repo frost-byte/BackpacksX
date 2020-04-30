@@ -38,10 +38,6 @@ lp user your_username promote roles
 `lp group admins permission set luckperms.*`
 
 ### Commands
-> Any command that has a scoreboard for a parameter will require the name of the scoreboard's config file, without the extension.
->
-> For example, to set your visible scoreboard to the default scoreboard you would use **_/qbx set scoreboard.default_**
->
 > All parameters in **\<brackets\>** are required
 > Parameters in **\[square brackets\]** are optional.
 > If the optional parameter is a player, then if the command issuer is a player, the action will be applied

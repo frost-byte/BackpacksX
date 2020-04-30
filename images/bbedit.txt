@@ -1,0 +1,102 @@
+[IMG]https://raw.githubusercontent.com/frost-byte/backpacksx/master/images/Layer-BackPacksX.png[/IMG]
+[CENTER][h5]A simple, yet customizable, backpack plugin for Minecraft[/h5][/CENTER]
+
+[IMG]https://raw.githubusercontent.com/frost-byte/backpacksx/master/images/Layer-Features.png[/IMG]
+- Free!
+- Store any item!
+- Automatically saves backpacks to custom files!
+- Unlimited backpacks!
+- Custom backpack configuration, recipes, items and more!
+- Compatible with Multiple Minecraft Versions: 1.8.3, 1.12.2, 1.14.4 and 1.15.2
+
+[IMG]https://raw.githubusercontent.com/frost-byte/backpacksx/master/images/Layer-Commands.png[/IMG]
+
+All backpacksx commands can be accessed using [U]/backpacksx[/U] or either of the aliases: [U]/bpx[/U] or [U]/bpax[/U]
+I recommend using [URL='https://luckperms.net/']LuckPerms[/URL] to manage your permissions.
+
+All parameters in [B]<brackets>[/B] are required
+Parameters in [B]\[square brackets\][/B] are optional.
+
+If the optional parameter is a player, then if the command issuer is a player, the action will be applied
+to them.
+
+[SPOILER="Commands and Permissions"]
+
+[B]/bpx
+description:[/B] Shows all commands and summaries for each of them.
+
+[B]/bpx reload
+aliases:[/B]  rl
+[B]permission:[/B]  backpacksx.reload
+[B]description:[/B]  Reload the configuration files for the plugin.
+
+[B]/bpx give <backpack> \[player\]
+aliases:[/B]  g
+[B]permission:[/B]  backpacksx.give
+[B]description:[/B]  Give the specified backpack to a player, or the command issuer if no player given
+
+[B]/bpx info <backpack>
+aliases:[/B]  i
+[B]permission:[/B]  None
+[B]description:[/B]  View Info about a specific backpack.
+
+[B]/bpx list
+aliases:[/B]  ls
+[B]permission:[/B]  backpacksx.info
+[B]description:[/B]  View a list of all available backpacks.
+
+[/SPOILER]
+
+[IMG]https://raw.githubusercontent.com/frost-byte/backpacksx/master/images/Layer-Configuration.png[/IMG]
+[B]Custom Backpacks[/B] can be added to the plugin's config.yml
+
+[SPOILER=Config Example]
+[CODE=YAML]
+sorting_hat:
+  size: 54
+  recipe:
+  - 'IRON_BLOCK IRON_BLOCK IRON_BLOCK'
+  - 'IRON_BLOCK HOPPER IRON_BLOCK'
+  - 'IRON_BLOCK IRON_BLOCK IRON_BLOCK'
+  item:
+    material: HOPPER
+    data: 0
+    amount: 1
+    name: '&b&lSorting Hat'
+    lore:
+    - ' '
+    - '&754 magical slots '
+[/CODE]
+[/SPOILER]
+[B][B]
+[IMG]https://raw.githubusercontent.com/frost-byte/backpacksx/master/images/Layer-Links.png[/IMG]
+[URL='https://luckperms.net/']LuckPerms[/URL]
+[URL='https://github.com/frost-byte/backpacksx']Github Repository[/URL]
+[URL='https://frostbyte.mycloudrepo.io/public/repositories/snapshots/net/frostbyte/backpacksx/backpacksx-dist/']CloudRepo MavenRepository [/URL]
+[SPOILER="Maven"]
+[h4]Maven[/h4]
+[h5]Artifact[/h5]
+[CODE=XML]
+<!--BackpacksX-->
+<dependency>
+    <groupId>net.frostbyte.backpacksx</groupId>
+    <artifactId>backpacksx-core</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+</dependency>
+[/CODE]
+
+[h5]Repository[/h5]
+[CODE=XML]
+<repository>
+    <id>io.cloudrepo.snapshots</id>
+    <url>https://frostbyte.mycloudrepo.io/public/repositories/snapshots</url>
+</repository>
+<repository>
+    <id>io.cloudrepo</id>
+    <url>https://frostbyte.mycloudrepo.io/public/repositories/releases</url>
+</repository>
+[/CODE]
+[/SPOILER]
+
+[h2]Discord[/h2]
+For support please contact me on [URL='https://discord.gg/MZNYhTA']the frost-byte central Discord[/URL][/B][/B]
