@@ -7,7 +7,7 @@ import co.aikar.commands.BukkitCommandManager;
 import co.aikar.commands.CommandCompletions;
 import co.aikar.commands.CommandContexts;
 import co.aikar.commands.InvalidCommandArgument;
-import net.frostbyte.backpacksx.Backpacks;
+import net.frostbyte.backpacksx.BackpacksX;
 import net.frostbyte.backpacksx.packs.ConfigPack;
 
 import java.util.logging.Logger;
@@ -18,9 +18,9 @@ public class CommandSetup
 	private final BukkitCommandManager commandManager;
 
 	@SuppressWarnings( { "FieldCanBeLocal", "unused" })
-	protected final Backpacks plugin;
+	protected final BackpacksX plugin;
 
-	public CommandSetup(Backpacks plugin)
+	public CommandSetup(BackpacksX plugin)
 	{
 		this.plugin = plugin;
 		this.commandManager = new BukkitCommandManager(plugin);

@@ -10,13 +10,17 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import static net.md_5.bungee.api.ChatColor.RED;
 
@@ -25,7 +29,13 @@ public class BridgeImpl implements VersionBridge
 {
 	public BridgeImpl() {}
 
-	private Map<NamespacedKey, ShapedRecipe> recipes = new HashMap<>();
+	private final Map<NamespacedKey, ShapedRecipe> recipes = new HashMap<>();
+
+	@Override
+	public boolean registerWithServer()
+	{
+		return false;
+	}
 
 	@Override
 	public void registerPackRecipe(
@@ -34,38 +44,108 @@ public class BridgeImpl implements VersionBridge
 		Player player
 	) {
 		NamespacedKey lookupKey = new NamespacedKey(plugin, packName);
-		Logger logger = plugin.getLogger();
 
-		if (!recipes.isEmpty())
-		{
-			ShapedRecipe recipe = recipes.getOrDefault(lookupKey, null);
-			if (recipe != null)
-			{
-				if (recipes != null)
-					recipes.put(lookupKey, recipe);
+		if (!serverHasRecipe(plugin, packName)) {
+			registerServerRecipe(plugin, packName);
+		}
 
-				try
-				{
-					plugin.getServer().addRecipe(recipe);
-				}
-				catch (IllegalStateException ignored) {}
-
-				if (player.discoverRecipe(lookupKey)) {
-					player.sendMessage(
-						ChatColor.AQUA + "" +  ChatColor.BOLD + "Discovered " + packName +
-						" recipe, log back in use it!"
-					);
-				}
-			}
+		if (player.discoverRecipe(lookupKey)) {
+			player.sendMessage(
+				ChatColor.AQUA + "" +  ChatColor.BOLD + "Discovered " + packName +
+					" recipe, log back in use it!"
+			);
 		}
 	}
 
+	public boolean isServerPackRegistered(JavaPlugin plugin, String packName)
+	{
+		NamespacedKey lookupKey = new NamespacedKey(plugin, packName);
+		ShapedRecipe recipe = recipes.getOrDefault(lookupKey, null);
+
+		if (recipe != null)
+		{
+			return !Bukkit.getRecipesFor(recipe.getResult()).isEmpty();
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean serverHasRecipe(JavaPlugin plugin, String packName)
+	{
+		NamespacedKey lookupKey = new NamespacedKey(plugin, packName);
+		List<Recipe> results = new ArrayList<>();
+		Iterator<Recipe> iter = Bukkit.recipeIterator();
+		ShapedRecipe packRecipe = recipes.getOrDefault(lookupKey, null);
+
+		if (packRecipe == null)
+		{
+			return false;
+		}
+
+		ItemStack backpack = packRecipe.getResult();
+		while (iter.hasNext()) {
+			Recipe recipe = iter.next();
+			ItemStack currentResult = recipe.getResult();
+			if (currentResult.getType() != backpack.getType()) {
+				continue;
+			}
+			if (currentResult.hasItemMeta() && currentResult.getItemMeta().hasDisplayName())
+			{
+				String name = currentResult.getItemMeta().getDisplayName();
+				if (name.contains(packName)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	@Override
 	public void unregisterPackRecipe(
 		JavaPlugin plugin,
 		String packName,
 		Player player
 	) {
+	}
+
+	@Override
+	public void registerServerRecipe(JavaPlugin plugin, String packName)
+	{
+		NamespacedKey lookupKey = new NamespacedKey(plugin, packName);
+
+		if (!recipes.isEmpty())
+		{
+			ShapedRecipe recipe = recipes.getOrDefault(lookupKey, null);
+			if (recipe != null)
+			{
+				recipes.put(lookupKey, recipe);
+
+				try
+				{
+					Bukkit.getServer().addRecipe(recipe);
+					plugin.getLogger().info(
+						ChatColor.AQUA + "" + ChatColor.BOLD + "Registered Recipe " + packName + " with the Server."
+					);
+				}
+				catch (IllegalStateException ignored)
+				{
+				}
+			}
+		}
+	}
+
+	@Override
+	public void unregisterServerRecipe(JavaPlugin plugin, String packName)
+	{
+		NamespacedKey lookupKey = new NamespacedKey(plugin, packName);
+		try
+		{
+			Bukkit.getServer().removeRecipe(lookupKey);
+			plugin.getLogger().info(
+				ChatColor.AQUA + "" + ChatColor.BOLD + "Removed Recipe " + packName + " from the Server."
+			);
+		}
+		catch (IllegalStateException ignored) {}
 	}
 
 	@Override
@@ -79,8 +159,7 @@ public class BridgeImpl implements VersionBridge
 
 		if (recipe != null)
 		{
-			if (recipes != null)
-				recipes.put(lookupKey, recipe);
+			recipes.put(lookupKey, recipe);
 		}
 	}
 
@@ -92,6 +171,7 @@ public class BridgeImpl implements VersionBridge
 	){
 		NamespacedKey key = new NamespacedKey(plugin, packName);
 		ShapedRecipe recipe = new ShapedRecipe(key, itemStack);
+		recipe.setGroup("backpacksx");
 		recipes.putIfAbsent(key, recipe);
 		//plugin.getLogger().info("Bridge: Creating Shaped Recipe for " + key);
 		return recipe;

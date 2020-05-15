@@ -2,8 +2,9 @@ package net.frostbyte.backpacksx.v1_12_R1.managers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.frostbyte.backpacksx.Backpacks;
+import net.frostbyte.backpacksx.BackpacksX;
 import net.frostbyte.backpacksx.managers.BaseLoadingManager;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -14,7 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class LoadingManager extends BaseLoadingManager implements Listener {
 
 	@Inject
-	public LoadingManager(Backpacks plugin)
+	public LoadingManager(BackpacksX plugin)
 	{
 		super(plugin);
 	}
@@ -28,4 +29,5 @@ public class LoadingManager extends BaseLoadingManager implements Listener {
 	public void onQuitServer(PlayerQuitEvent event) {
 		plugin.savePlayerPacks(event.getPlayer());
 	}
+
 }

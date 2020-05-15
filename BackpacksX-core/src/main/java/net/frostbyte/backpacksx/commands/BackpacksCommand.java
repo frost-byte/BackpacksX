@@ -13,7 +13,7 @@ import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.annotation.Syntax;
 import co.aikar.commands.annotation.Values;
-import net.frostbyte.backpacksx.Backpacks;
+import net.frostbyte.backpacksx.BackpacksX;
 import net.frostbyte.backpacksx.packs.ConfigPack;
 import net.frostbyte.backpacksx.util.StringConstants;
 import org.bukkit.command.CommandSender;
@@ -26,9 +26,9 @@ import static net.md_5.bungee.api.ChatColor.RED;
 @CommandAlias("backpacksx|bpx|bpax")
 public class BackpacksCommand extends BaseCommand
 {
-	protected final Backpacks plugin;
+	protected final BackpacksX plugin;
 
-	public BackpacksCommand(Backpacks plugin) { this.plugin = plugin; }
+	public BackpacksCommand(BackpacksX plugin) { this.plugin = plugin; }
 
 	@HelpCommand
 	public void doHelp(CommandSender sender, CommandHelp help)
@@ -128,7 +128,7 @@ public class BackpacksCommand extends BaseCommand
 	@CommandPermission("backpacksx.list")
 	public void listPacks(CommandSender sender)
 	{
-		sender.sendMessage("§cAll Loaded Backpacks:");
+		sender.sendMessage("§cAll Loaded BackpacksX:");
 
 		plugin.getConfigPacks().values().stream().map(ConfigPack::packInfo).forEach(sender::sendMessage);
 	}

@@ -14,7 +14,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <paper.version>1.15.2-R0.1-SNAPSHOT</paper.version>
+        <paper-api.version>1.15.2-R0.1-SNAPSHOT</paper-api.version>
+        <paper.version>1.15.2</paper.version>
         <mc.version>v1_15_R1</mc.version>
     </properties>
 
@@ -23,7 +24,7 @@
         <dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>${paper.version}</version>
+            <version>${paper-api.version}</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -40,6 +41,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Paper -->
+<!--        <dependency>-->
+<!--            <groupId>com.destroystokyo.paper</groupId>-->
+<!--            <artifactId>paper</artifactId>-->
+<!--            <version>${paper.version}</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
         <!-- Guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -55,7 +63,17 @@
             <groupId>net.frostbyte.backpacksx</groupId>
             <artifactId>backpacksx-core</artifactId>
             <version>${project.parent.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.inject</groupId>
+                    <artifactId>guice</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
@@ -77,6 +95,18 @@
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.1</version>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>com.google.common</pattern>
+                            <shadedPattern>net.frostbyte.backpacksx.${mc.version}.gcommon</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.google.inject</pattern>
+                            <shadedPattern>net.frostbyte.backpacksx.${mc.version}.inject</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>

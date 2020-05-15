@@ -7,11 +7,11 @@ import java.net.URL;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class PluginUpdater {
-	private Backpacks plugin;
+	private BackpacksX plugin;
 	private boolean needUpdate;
 	private String[] updateInfo;
 
-	PluginUpdater(Backpacks plugin) {
+	PluginUpdater(BackpacksX plugin) {
 		this.plugin = plugin;
 		(new BukkitRunnable() {
 			public void run() {
@@ -23,14 +23,14 @@ public class PluginUpdater {
 	private void doUpdate() {
 		String response = this.getResponse();
 		if (response == null) {
-			System.out.println("Some sort of error happened! Can't get new version of Backpack!");
+			System.out.println("An error occurred! Could not determine the newest version of BackpacksX!");
 		} else {
 			this.updateInfo = response.split(";");
-			System.out.println("Current Backpack version: " + this.plugin.getDescription().getVersion());
-			System.out.println("New Backpack version: " + this.updateInfo[0]);
+			System.out.println("Current BackpacksX version: " + this.plugin.getDescription().getVersion());
+			System.out.println("New BackpacksX version: " + this.updateInfo[0]);
 			if (!this.plugin.getDescription().getVersion().equalsIgnoreCase(this.updateInfo[0])) {
 				System.out.println(" ");
-				System.out.println("Backpack has a new Update!");
+				System.out.println("BackpacksX has a new Update!");
 				this.needUpdate = true;
 				this.plugin.sendUpdateMessage();
 			}
@@ -39,8 +39,8 @@ public class PluginUpdater {
 
 	private String getResponse() {
 		try {
-			System.out.println("Checking for new version of Backpack...");
-			URL post = new URL("https://raw.githubusercontent.com/frost-byte/Backpack/master/VERSION");
+			System.out.println("Checking for new version of BackpacksX...");
+			URL post = new URL("https://raw.githubusercontent.com/frost-byte/BackpacksX/master/VERSION");
 			return this.get(post);
 		} catch (IOException var3) {
 			var3.printStackTrace();

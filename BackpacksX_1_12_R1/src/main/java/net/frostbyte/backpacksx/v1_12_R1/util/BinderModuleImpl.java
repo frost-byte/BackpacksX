@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
-import net.frostbyte.backpacksx.Backpacks;
+import net.frostbyte.backpacksx.BackpacksX;
 import net.frostbyte.backpacksx.managers.BaseCraftManager;
 import net.frostbyte.backpacksx.managers.BaseInventoryManager;
 import net.frostbyte.backpacksx.managers.BaseLoadingManager;
@@ -25,7 +25,7 @@ public class BinderModuleImpl implements BinderBridge
 	public BinderModuleImpl() {}
 
 	@Override
-	public void createBridge(Backpacks plugin)
+	public void createBridge(BackpacksX plugin)
 	{
 		checkNotNull(plugin, "The plugin instance cannot be null.");
 
@@ -34,7 +34,7 @@ public class BinderModuleImpl implements BinderBridge
 			@Override
 			protected void configure()
 			{
-				bind(Backpacks.class).toInstance(plugin);
+				bind(BackpacksX.class).toInstance(plugin);
 				bind(BaseCraftManager.class).to(CraftManager.class);
 				bind(BaseLoadingManager.class).to(LoadingManager.class);
 				bind(BaseInventoryManager.class).to(InventoryManager.class);

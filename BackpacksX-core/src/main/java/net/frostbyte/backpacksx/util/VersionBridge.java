@@ -10,8 +10,12 @@ import java.util.UUID;
 
 public interface VersionBridge
 {
+	boolean registerWithServer();
+	boolean serverHasRecipe(JavaPlugin plugin, String packName);
 	void registerPackRecipe(JavaPlugin plugin, String packName, Player player);
 	void unregisterPackRecipe(JavaPlugin plugin, String packName, Player player);
+	void registerServerRecipe(JavaPlugin plugin, String packName);
+	void unregisterServerRecipe(JavaPlugin plugin, String packName);
 	void updatePackRecipe(JavaPlugin plugin, String packName, ShapedRecipe recipe);
 	ShapedRecipe createShapedRecipe(JavaPlugin plugin, String packName, ItemStack itemStack);
 	ItemStack createItemStack(Material material, int amount, short data);

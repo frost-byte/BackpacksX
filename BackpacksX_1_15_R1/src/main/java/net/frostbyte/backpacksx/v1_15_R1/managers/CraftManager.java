@@ -2,7 +2,7 @@ package net.frostbyte.backpacksx.v1_15_R1.managers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.frostbyte.backpacksx.Backpacks;
+import net.frostbyte.backpacksx.BackpacksX;
 import net.frostbyte.backpacksx.managers.BaseCraftManager;
 import net.frostbyte.backpacksx.packs.ConfigPack;
 import net.frostbyte.backpacksx.util.StringConstants;
@@ -20,7 +20,7 @@ import org.bukkit.inventory.PlayerInventory;
 public class CraftManager extends BaseCraftManager implements Listener {
 
 	@Inject
-	public CraftManager(Backpacks plugin)
+	public CraftManager(BackpacksX plugin)
 	{
 		super(plugin);
 	}

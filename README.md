@@ -116,6 +116,7 @@ New backpacks can be added by adding a section to the `config.yml` file and then
 [5]: https://www.spigotmc.org/resources/quickboard-free-scoreboard-plugin-scroller-changeable-text-placeholderapi-anti-flicker.15057/
 [6]: https://discord.gg/MZNYhTA
 [7]: https://frostbyte.mycloudrepo.io/public/repositories/snapshots
+[8]: https://www.cloudrepo.io
 [logo]: https://github.com/frost-byte/BackpacksX/blob/master/images/Layer-BackPacksX.png
 
 ### Source
@@ -136,6 +137,10 @@ New backpacks can be added by adding a section to the `config.yml` file and then
 ```
 
 ##### Maven Repositories
+Free Repository Hosting provided by [CloudRepo.io][8]
+
+>  _CloudRepo.io allows open source projects to use their services at no cost._
+>  _They provide Public, Private and Proxy Repositories_
 ```xml
 <!-- frost-byte snapshots -->
 <repository>

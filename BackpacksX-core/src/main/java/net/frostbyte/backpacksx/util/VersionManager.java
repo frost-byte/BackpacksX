@@ -1,6 +1,6 @@
 package net.frostbyte.backpacksx.util;
 
-import net.frostbyte.backpacksx.Backpacks;
+import net.frostbyte.backpacksx.BackpacksX;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,7 +25,7 @@ public class VersionManager
 		BRIDGE = (VersionBridge) Class.forName(className).getConstructor().newInstance();
 	}
 
-	public static void loadBinderModule(Backpacks plugin) throws Exception
+	public static void loadBinderModule(BackpacksX plugin) throws Exception
 	{
 		String className = PACKAGE_HEADER + getMinecraftRevision() + ".util.BinderModuleImpl";
 		BINDER = (BinderBridge) Class.forName(className).getConstructor().newInstance();
@@ -51,6 +51,22 @@ public class VersionManager
 	{
 		BRIDGE.unregisterPackRecipe(plugin, packName, player);
 	}
+
+	public static boolean registerWithServer()
+	{
+		return BRIDGE.registerWithServer();
+	}
+
+	public static void registerServerRecipe(JavaPlugin plugin, String packName)
+	{
+		BRIDGE.registerServerRecipe(plugin, packName);
+	}
+
+	public static void unregisterServerRecipe(JavaPlugin plugin, String packName)
+	{
+		BRIDGE.unregisterServerRecipe(plugin, packName);
+	}
+
 
 	public static void updatePackRecipe(JavaPlugin plugin, String packName, ShapedRecipe recipe)
 	{

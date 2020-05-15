@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.frostbyte.backpacksx.Backpacks;
+import net.frostbyte.backpacksx.BackpacksX;
 import net.frostbyte.backpacksx.managers.BaseInventoryManager;
 import net.frostbyte.backpacksx.packs.Backpack;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class InventoryManager extends BaseInventoryManager implements Listener {
 
 	@Inject
-	public InventoryManager(Backpacks plugin) {
+	public InventoryManager(BackpacksX plugin) {
 		super(plugin);
 	}
 

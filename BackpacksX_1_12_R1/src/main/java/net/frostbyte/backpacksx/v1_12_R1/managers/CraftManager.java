@@ -2,7 +2,7 @@ package net.frostbyte.backpacksx.v1_12_R1.managers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.frostbyte.backpacksx.Backpacks;
+import net.frostbyte.backpacksx.BackpacksX;
 import net.frostbyte.backpacksx.managers.BaseCraftManager;
 import net.frostbyte.backpacksx.packs.ConfigPack;
 import net.md_5.bungee.api.ChatColor;
@@ -21,7 +21,7 @@ import static net.frostbyte.backpacksx.util.StringConstants.HEADER;
 public class CraftManager extends BaseCraftManager implements Listener {
 
 	@Inject
-	public CraftManager(Backpacks plugin)
+	public CraftManager(BackpacksX plugin)
 	{
 		super(plugin);
 	}

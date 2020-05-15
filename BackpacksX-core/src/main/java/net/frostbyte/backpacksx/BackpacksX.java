@@ -48,19 +48,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 import static net.frostbyte.backpacksx.util.StringConstants.HEADER;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class Backpacks extends JavaPlugin {
+public class BackpacksX extends JavaPlugin {
 	/**
 	 * Map of Config Names to their Backpack Configuration
 	 */
 	private HashMap<String, ConfigPack> configPacks = new HashMap<>();
 
 	/**
-	 * Map of Player Names to a List of their Backpacks
+	 * Map of Player Names to a List of their BackpacksX
 	 */
 	private HashMap<String, List<Backpack>> playerBackpacks = new HashMap<>();
 
 	/**
-	 * Map of Backpacks and Inventories
+	 * Map of BackpacksX and Inventories
 	 */
 	private HashMap<Backpack, Inventory> backpackInventories = new HashMap<>();
 	private PluginUpdater pluginUpdater;
@@ -75,7 +75,7 @@ public class Backpacks extends JavaPlugin {
 	{
 		findVersion();
 		getLogger().info("-----------------------------");
-		getLogger().info("          Backpacks          ");
+		getLogger().info("          BackpacksX          ");
 		getLogger().info("                             ");
 		getLogger().info("     MC Revision: " + VersionManager.getMinecraftRevision());
 
@@ -88,6 +88,16 @@ public class Backpacks extends JavaPlugin {
 		reloadConfig();
 		reloadBackpacks();
 		registerMetrics();
+
+		if (VersionManager.registerWithServer())
+		{
+			new BukkitRunnable() {
+				@Override public void run()
+				{
+					registerServerPacks();
+				}
+			}.runTaskLater(this, 0L);
+		}
 		//createPlayerPacks();
 	}
 
@@ -168,6 +178,16 @@ public class Backpacks extends JavaPlugin {
 		});
 	}
 
+	public void registerServerPacks()
+	{
+		getLogger().info("Registering Packs with Server...");
+		for (String packName : getConfigPacks().keySet())
+		{
+			getLogger().info("Registering Pack " + packName);
+			VersionManager.registerServerRecipe(this, packName);
+		}
+	}
+
 	public void createPlayerPacks(Player player)
 	{
 		if (player == null || !player.isOnline())
@@ -220,7 +240,11 @@ public class Backpacks extends JavaPlugin {
 			for (Backpack backpack : backpacks)
 			{
 				saveBackpack(player, backpack);
-				VersionManager.unregisterPackRecipe(this, backpack.getConfigName(), player);
+
+				if (!VersionManager.registerWithServer())
+				{
+					VersionManager.unregisterPackRecipe(this, backpack.getConfigName(), player);
+				}
 			}
 		}
 	}
@@ -266,6 +290,18 @@ public class Backpacks extends JavaPlugin {
 
 			for (Backpack pack : backpacks) {
 				saveBackpack(player, pack);
+			}
+		}
+
+		for (String packName : getConfigPacks().keySet())
+		{
+			if (VersionManager.registerWithServer())
+			{
+				VersionManager.unregisterServerRecipe(this, packName);
+			}
+			else
+			{
+				VersionManager.unregisterPackRecipe(this, packName, null);
 			}
 		}
 	}

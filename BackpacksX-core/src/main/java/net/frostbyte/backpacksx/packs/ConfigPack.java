@@ -2,7 +2,7 @@ package net.frostbyte.backpacksx.packs;
 
 import java.util.List;
 
-import net.frostbyte.backpacksx.Backpacks;
+import net.frostbyte.backpacksx.BackpacksX;
 
 import net.frostbyte.backpacksx.util.VersionManager;
 import org.bukkit.Material;
@@ -17,10 +17,10 @@ public class ConfigPack {
 	private ItemStack itemStack;
 	private ShapedRecipe shapedRecipe;
 	@SuppressWarnings({"FieldCanBeLocal", "unused"})
-	private final Backpacks plugin;
+	private final BackpacksX plugin;
 
 
-	public ConfigPack(Backpacks plugin, String name, int size, List<String> recipe, ItemStack itemStack) {
+	public ConfigPack(BackpacksX plugin, String name, int size, List<String> recipe, ItemStack itemStack) {
 		this.plugin = plugin;
 		this.name = name;
 		this.size = size;
