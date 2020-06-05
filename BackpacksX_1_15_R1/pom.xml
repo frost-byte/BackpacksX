@@ -105,6 +105,10 @@
                             <pattern>com.google.inject</pattern>
                             <shadedPattern>net.frostbyte.backpacksx.${mc.version}.inject</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>javax.inject</pattern>
+                            <shadedPattern>net.frostbyte.backpacksx.${mc.version}.javax.inject</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>

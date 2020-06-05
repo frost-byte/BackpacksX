@@ -160,7 +160,7 @@
                         </relocation>
                         <relocation>
                             <pattern>javax.inject</pattern>
-                            <shadedPattern>net.frostbyte.backpacksx.core.jvxinject</shadedPattern>
+                            <shadedPattern>net.frostbyte.backpacksx.core.javax.inject</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.apache.commons.lang</pattern>

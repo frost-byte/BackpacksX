@@ -117,12 +117,13 @@ New backpacks can be added by adding a section to the `config.yml` file and then
 [6]: https://discord.gg/MZNYhTA
 [7]: https://frostbyte.mycloudrepo.io/public/repositories/snapshots
 [8]: https://www.cloudrepo.io
-[logo]: https://github.com/frost-byte/BackpacksX/blob/master/images/Layer-BackPacksX.png
+[logo]: images/Layer-BackPacksX.png
+[cloud]: images/CloudRepo-Square-Brand-Blue.png
 
 ### Source
 [Github Repository][3]  
-[Github Maven Repository - Releases][4]  
-[Github Maven Repository - Snapshots][7]
+[CloudRepo.io Maven Repository - Releases][4]  
+[CloudRepo.io Maven Repository - Snapshots][7]
 
 #### Maven
 
@@ -136,8 +137,10 @@ New backpacks can be added by adding a section to the `config.yml` file and then
 </dependency>
 ```
 
+[![CloudRepo.io][cloud]][8]
+>  _CloudRepo.io allows open source projects to use their services at no cost._
+>  _They provide Public, Private and Proxy Repositories_
 ##### Maven Repositories
-Free Repository Hosting provided by [CloudRepo.io][8]
 
 >  _CloudRepo.io allows open source projects to use their services at no cost._
 >  _They provide Public, Private and Proxy Repositories_
