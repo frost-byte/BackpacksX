@@ -7,7 +7,7 @@
 - Automatically saves backpacks to custom files!
 - Unlimited backpacks!
 - Custom backpack configuration, recipes, items and more!
-- Compatible with Multiple Minecraft Versions: 1.8.3, 1.12.2, 1.14.4 and 1.15.2
+- Compatible with Multiple Minecraft Versions: 1.8.3, 1.12.2, 1.14.4, 1.15.2 and 1.16.1
 
 ### Permissions
 
@@ -133,7 +133,7 @@ New backpacks can be added by adding a section to the `config.yml` file and then
 <dependency>
     <groupId>net.frostbyte.backpacksx</groupId>
     <artifactId>quickboardx-core</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
