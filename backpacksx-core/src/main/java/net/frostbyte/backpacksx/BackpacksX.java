@@ -21,7 +21,6 @@ import java.util.zip.GZIPOutputStream;
 
 import net.frostbyte.backpacksx.Metrics.SingleLineChart;
 
-import net.frostbyte.backpacksx.commands.BackpacksBaseCommand;
 import net.frostbyte.backpacksx.commands.BackpacksCommand;
 import net.frostbyte.backpacksx.commands.CommandSetup;
 import net.frostbyte.backpacksx.managers.BaseCraftManager;
@@ -52,17 +51,17 @@ public class BackpacksX extends JavaPlugin {
 	/**
 	 * Map of Config Names to their Backpack Configuration
 	 */
-	private HashMap<String, ConfigPack> configPacks = new HashMap<>();
+	private final HashMap<String, ConfigPack> configPacks = new HashMap<>();
 
 	/**
 	 * Map of Player Names to a List of their BackpacksX
 	 */
-	private HashMap<String, List<Backpack>> playerBackpacks = new HashMap<>();
+	private final HashMap<String, List<Backpack>> playerBackpacks = new HashMap<>();
 
 	/**
 	 * Map of BackpacksX and Inventories
 	 */
-	private HashMap<Backpack, Inventory> backpackInventories = new HashMap<>();
+	private final HashMap<Backpack, Inventory> backpackInventories = new HashMap<>();
 	private PluginUpdater pluginUpdater;
 	private static boolean v1_12;
 	private static boolean v1_13;
@@ -386,6 +385,10 @@ public class BackpacksX extends JavaPlugin {
 
 	public HashMap<Backpack, Inventory> getBackpackInventories() {
 		return backpackInventories;
+	}
+
+	public boolean isBackpackInventory(Inventory inventory) {
+		return backpackInventories.containsValue(inventory);
 	}
 
 	public boolean isBackpack(ItemStack itemStack) {

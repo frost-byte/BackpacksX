@@ -84,10 +84,9 @@
         </dependency>
         <!-- BackpacksX Core -->
         <dependency>
-            <groupId>net.frostbyte.backpacksx</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>backpacksx-core</artifactId>
             <version>${project.parent.version}</version>
-            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.inject</groupId>
@@ -148,11 +147,6 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>net.frostbyte.backpacksx.backpacksx-core:core</exclude>
-                                </excludes>
-                            </artifactSet>
                         </configuration>
                     </execution>
                 </executions>
